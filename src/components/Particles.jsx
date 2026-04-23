@@ -32,9 +32,9 @@ const Particles = () => {
             top: `${p.y}vh`,
             width: `${p.size}px`,
             height: `${p.size}px`,
-            backgroundColor: 'rgba(255, 255, 255, 0.4)',
+            backgroundColor: 'var(--particle-color)',
             borderRadius: '50%',
-            boxShadow: '0 0 8px rgba(255, 255, 255, 0.6)',
+            boxShadow: '0 0 8px var(--particle-glow)',
           }}
           animate={{
             y: [0, -100, -200],

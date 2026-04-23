@@ -1,46 +1,29 @@
 import React from 'react';
-import { Home, User, Code2, FolderRoot, FileText, Mail, Moon, Sun, BrainCircuit } from 'lucide-react';
+import { Github, Linkedin, Mail, FileText } from 'lucide-react';
 
 const Sidebar = () => {
-  const navItems = [
-    { icon: <Home size={24} />, id: 'home' },
-    { icon: <User size={24} />, id: 'about' },
-    { icon: <Code2 size={24} />, id: 'skills' },
-    { icon: <FolderRoot size={24} />, id: 'projects' },
-    { icon: <FileText size={24} />, id: 'resume' },
-    { icon: <Mail size={24} />, id: 'contact' },
+  const contactItems = [
+    { icon: <Github size={30} />, href: 'https://github.com', label: 'GitHub', external: true },
+    { icon: <Linkedin size={30} />, href: 'https://linkedin.com', label: 'LinkedIn', external: true },
+    { icon: <Mail size={30} />, href: 'mailto:bhagalpur.mithun.29@gmail.com', label: 'Email', external: false },
+    { icon: <FileText size={30} />, href: '#resume', label: 'Resume', external: false },
   ];
 
   return (
-    <aside className="sidebar glass">
-      <div className="logo-section" style={{ marginBottom: 'auto', padding: '1rem' }}>
-        <div style={{ 
-          width: '44px', 
-          height: '44px', 
-          background: 'linear-gradient(135deg, var(--accent-blue), var(--accent-purple))', 
-          borderRadius: '12px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          boxShadow: '0 0 15px rgba(59, 130, 246, 0.4)'
-        }}>
-          <BrainCircuit color="white" size={24} />
-        </div>
-      </div>
-      
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {navItems.map((item) => (
-          <a key={item.id} href={`#${item.id}`} className="nav-icon">
-            {item.icon}
-          </a>
-        ))}
-      </nav>
-
-      <div className="theme-toggle" style={{ marginTop: 'auto' }}>
-        <button className="nav-icon" style={{ border: 'none', background: 'none' }}>
-          <Moon size={24} />
-        </button>
-      </div>
+    <aside className="sidebar contact-sidebar">
+      {contactItems.map((item) => (
+        <a
+          key={item.label}
+          href={item.href}
+          className="sidebar-contact-icon"
+          aria-label={item.label}
+          title={item.label}
+          target={item.external ? '_blank' : undefined}
+          rel={item.external ? 'noreferrer' : undefined}
+        >
+          {item.icon}
+        </a>
+      ))}
     </aside>
   );
 };

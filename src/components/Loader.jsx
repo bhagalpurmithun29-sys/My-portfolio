@@ -52,14 +52,14 @@ const Loader = ({ isLoading, progress }) => {
               position: 'relative', 
               width: '350px', 
               height: '34px', 
-              border: '2px solid rgba(0, 212, 255, 0.5)', 
+              border: '2px solid var(--loader-track-border)', 
               borderRadius: '999px', 
               padding: '4px',
               display: 'flex',
               gap: '4px',
               overflow: 'hidden',
               marginBottom: '2rem',
-              background: 'rgba(0, 0, 0, 0.3)',
+              background: 'var(--loader-track-bg)',
               boxShadow: '0 0 20px rgba(0, 212, 255, 0.1)'
             }}>
               {/* Loop to create segments */}
@@ -71,7 +71,7 @@ const Loader = ({ isLoading, progress }) => {
                     initial={{ opacity: 0.1 }}
                     animate={{ 
                       opacity: progress >= segmentProgress ? 1 : 0.1,
-                      background: progress >= segmentProgress ? 'var(--accent-blue)' : 'rgba(255,255,255,0.05)',
+                      background: progress >= segmentProgress ? 'var(--accent-blue)' : 'var(--loader-segment-off)',
                       boxShadow: progress >= segmentProgress ? '0 0 10px var(--accent-blue)' : 'none'
                     }}
                     style={{ 

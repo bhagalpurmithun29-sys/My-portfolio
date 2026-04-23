@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Github, 
-  Linkedin, 
   Mail, 
   FileDown, 
-  FileText,
   ExternalLink, 
   Award, 
   Briefcase, 
@@ -16,7 +14,9 @@ import {
   BrainCircuit,
   Heart,
   Phone,
-  MapPin
+  MapPin,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './components/Sidebar';
@@ -30,6 +30,24 @@ import StaggeredText from './components/StaggeredText';
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      setTheme(savedTheme);
+      return;
+    }
+
+    const prefersLight =
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    setTheme(prefersLight ? 'light' : 'dark');
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
 
   useEffect(() => {
     if (loading) {
@@ -89,6 +107,15 @@ const App = () => {
             <a href="#about" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>About</a>
             <a href="#skills" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Skills</a>
             <a href="#contact" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Contact</a>
+            <button
+              className="btn-secondary theme-toggle"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === 'dark' ? 'Light' : 'Dark'}
+            </button>
             <button className="btn-primary">Hire Me</button>
           </nav>
         </header>
@@ -102,7 +129,7 @@ const App = () => {
           >
             <h3 style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }}>Hi, I'm</h3>
             <StaggeredText text="Mithun Kumar 👋" style={{ fontSize: '4.5rem', marginBottom: '0.5rem', fontWeight: 700 }} />
-            <h1 className="gradient-text glitch-text" data-text="AI Developer" style={{ fontSize: '4.5rem', marginBottom: '1.5rem' }}>AI Developer</h1>
+            <h1 className="gradient-text" style={{ fontSize: '4.5rem', marginBottom: '1.5rem' }}>AI Developer</h1>
             <StaggeredText 
               text="AI Developer specializing in Computer Vision & Machine Learning. Passionate about building intelligent solutions that make a real impact." 
               style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '500px', marginBottom: '2.5rem' }} 
@@ -117,20 +144,6 @@ const App = () => {
               </MagneticButton>
             </div>
             
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="social-icon">
-                <Github size={20} />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="social-icon">
-                <Linkedin size={20} />
-              </a>
-              <a href="mailto:bhagalpur.mithun.29@gmail.com" className="social-icon">
-                <Mail size={20} />
-              </a>
-              <a href="#resume" className="social-icon">
-                <FileText size={20} />
-              </a>
-            </div>
           </motion.div>
 
           <motion.div 
@@ -155,11 +168,11 @@ const App = () => {
         </section>
 
         {/* Stats Bar */}
-        <section className="glass" style={{ padding: '2rem', display: 'flex', justifyContent: 'space-around', marginBottom: '6rem' }}>
+        <section className="glass card-animated" style={{ padding: '2rem', display: 'flex', justifyContent: 'space-around', marginBottom: '6rem' }}>
           {[
             { icon: <Code className="gradient-text" />, value: '10+', label: 'Projects' },
             { icon: <Trophy className="gradient-text" />, value: '5+', label: 'Certifications' },
-            { icon: <GraduationCap className="gradient-text" />, value: '2+', label: 'Years Learning' },
+            { icon: <GraduationCap className="gradient-text" />, value: 'Fresher', label: 'Experience Level' },
             { icon: <Heart className="gradient-text" />, value: '100%', label: 'Passion' },
           ].map((stat, i) => (
             <motion.div 
@@ -183,7 +196,7 @@ const App = () => {
             <h2 style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ color: 'var(--accent-blue)' }}>|</span> About Me
             </h2>
-            <div className="glass" style={{ padding: '2rem' }}>
+            <div className="glass card-animated" style={{ padding: '2rem' }}>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
                 MCA Student at Central University of Himachal Pradesh. Passionate about solving real-world healthcare problems through Computer Vision and Deep Learning.
               </p>
@@ -214,7 +227,7 @@ const App = () => {
               ].map((skill, i) => (
                 <motion.div 
                   key={i} 
-                  className="glass skill-tag glass-hover"
+                  className="glass skill-tag glass-hover card-animated"
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
@@ -260,6 +273,7 @@ const App = () => {
             ].map((project, i) => (
               <TiltCard 
                 key={i} 
+                index={i}
                 className="glass project-card glass-hover neon-glow-hover" 
                 style={{ padding: '1.5rem' }}
               >
@@ -268,7 +282,7 @@ const App = () => {
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>{project.desc}</p>
                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
                   {project.tags.map((tag, j) => (
-                    <span key={j} style={{ background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.6rem', borderRadius: '0.5rem', fontSize: '0.75rem' }}>{tag}</span>
+                    <span key={j} style={{ background: 'var(--chip-bg)', padding: '0.2rem 0.6rem', borderRadius: '0.5rem', fontSize: '0.75rem' }}>{tag}</span>
                   ))}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -290,7 +304,7 @@ const App = () => {
             <h2 style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ color: 'var(--accent-blue)' }}>|</span> Education & Experience
             </h2>
-            <div className="glass" style={{ padding: '2rem' }}>
+            <div className="glass card-animated" style={{ padding: '2rem' }}>
               <div style={{ borderLeft: '2px solid var(--accent-blue)', paddingLeft: '2rem', position: 'relative' }}>
                 <div style={{ marginBottom: '2.5rem', position: 'relative' }}>
                   <div style={{ position: 'absolute', left: '-2.7rem', top: '0', background: 'var(--bg-dark)', border: '2px solid var(--accent-blue)', borderRadius: '50%', padding: '0.4rem' }}>
@@ -316,7 +330,7 @@ const App = () => {
             <h2 style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ color: 'var(--accent-blue)' }}>|</span> Resume Preview
             </h2>
-            <div className="glass" style={{ padding: '1.5rem', display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <div className="glass card-animated" style={{ padding: '1.5rem', display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
               <div className="glass" style={{ width: '120px', height: '160px', overflow: 'hidden' }}>
                 <img src="/resume_thumb.png" alt="Resume Thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
@@ -338,7 +352,7 @@ const App = () => {
 
         {/* Contact Section */}
         <section id="contact" className="section">
-          <div className="glass" style={{ padding: '4rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem' }}>
+          <div className="glass card-animated" style={{ padding: '4rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem' }}>
             <div>
               <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Get In Touch</h2>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem' }}>
@@ -369,10 +383,10 @@ const App = () => {
 
             <form style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                <input type="text" placeholder="Your Name" className="glass" style={{ padding: '1rem', border: '1px solid var(--glass-border)', color: 'white' }} />
-                <input type="email" placeholder="Your Email" className="glass" style={{ padding: '1rem', border: '1px solid var(--glass-border)', color: 'white' }} />
+                <input type="text" placeholder="Your Name" className="glass" style={{ padding: '1rem', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }} />
+                <input type="email" placeholder="Your Email" className="glass" style={{ padding: '1rem', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }} />
               </div>
-              <textarea placeholder="Your Message" rows="5" className="glass" style={{ padding: '1rem', border: '1px solid var(--glass-border)', color: 'white' }}></textarea>
+              <textarea placeholder="Your Message" rows="5" className="glass" style={{ padding: '1rem', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}></textarea>
               <button className="btn-primary" style={{ justifyContent: 'center' }}>
                 Send Message <Send size={18} />
               </button>
