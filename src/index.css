@@ -321,3 +321,67 @@ h1, h2, h3 {
     margin-bottom: 60px;
   }
 }
+
+/* Hacknovate 7.0 Upside Down Theme Animations */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark);
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 red;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 blue;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(21px, 9999px, 86px, 0); }
+  20% { clip: rect(62px, 9999px, 12px, 0); }
+  40% { clip: rect(43px, 9999px, 55px, 0); }
+  60% { clip: rect(8px, 9999px, 34px, 0); }
+  80% { clip: rect(98px, 9999px, 11px, 0); }
+  100% { clip: rect(72px, 9999px, 93px, 0); }
+}
+
+@keyframes glitch-anim2 {
+  0% { clip: rect(12px, 9999px, 89px, 0); }
+  20% { clip: rect(34px, 9999px, 2px, 0); }
+  40% { clip: rect(88px, 9999px, 44px, 0); }
+  60% { clip: rect(22px, 9999px, 66px, 0); }
+  80% { clip: rect(55px, 9999px, 11px, 0); }
+  100% { clip: rect(99px, 9999px, 33px, 0); }
+}
+
+@keyframes glitch-skew {
+  0% { transform: skew(0deg); }
+  10% { transform: skew(-2deg); }
+  20% { transform: skew(1deg); }
+  30% { transform: skew(-1deg); }
+  40% { transform: skew(0deg); }
+  100% { transform: skew(0deg); }
+}
+
+.neon-glow-hover:hover {
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), 0 0 30px rgba(128, 0, 128, 0.5) !important;
+  border-color: rgba(255, 0, 0, 0.4) !important;
+}

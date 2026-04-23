@@ -21,6 +21,11 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './components/Sidebar';
 import Loader from './components/Loader';
+import Particles from './components/Particles';
+import CursorSpotlight from './components/CursorSpotlight';
+import TiltCard from './components/TiltCard';
+import MagneticButton from './components/MagneticButton';
+import StaggeredText from './components/StaggeredText';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -66,6 +71,8 @@ const App = () => {
           >
             <div className="bg-glow glow-blue" />
             <div className="bg-glow glow-purple" />
+            <Particles />
+            <CursorSpotlight />
             
             <Sidebar />
       
@@ -94,17 +101,20 @@ const App = () => {
             transition={{ duration: 0.8 }}
           >
             <h3 style={{ color: 'var(--accent-purple)', marginBottom: '1rem' }}>Hi, I'm</h3>
-            <h1 style={{ fontSize: '4.5rem', marginBottom: '0.5rem' }}>Mithun Kumar 👋</h1>
-            <h1 className="gradient-text" style={{ fontSize: '4.5rem', marginBottom: '1.5rem' }}>AI Developer</h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '500px', marginBottom: '2.5rem' }}>
-              AI Developer specializing in Computer Vision & Machine Learning. Passionate about building intelligent solutions that make a real impact.
-            </p>
+            <StaggeredText text="Mithun Kumar 👋" style={{ fontSize: '4.5rem', marginBottom: '0.5rem', fontWeight: 700 }} />
+            <h1 className="gradient-text glitch-text" data-text="AI Developer" style={{ fontSize: '4.5rem', marginBottom: '1.5rem' }}>AI Developer</h1>
+            <StaggeredText 
+              text="AI Developer specializing in Computer Vision & Machine Learning. Passionate about building intelligent solutions that make a real impact." 
+              style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '500px', marginBottom: '2.5rem' }} 
+            />
             
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-              <button className="btn-primary">View My Work <ArrowRight size={20} /></button>
-              <a href="/mithun.pdf" download className="btn-secondary" style={{ textDecoration: 'none' }}>
-                Download Resume <FileDown size={20} />
-              </a>
+              <MagneticButton className="btn-primary">View My Work <ArrowRight size={20} /></MagneticButton>
+              <MagneticButton style={{ background: 'transparent', border: 'none', padding: 0 }}>
+                <a href="/mithun.pdf" download className="btn-secondary" style={{ textDecoration: 'none' }}>
+                  Download Resume <FileDown size={20} />
+                </a>
+              </MagneticButton>
             </div>
             
             <div style={{ display: 'flex', gap: '1rem' }}>
@@ -152,11 +162,18 @@ const App = () => {
             { icon: <GraduationCap className="gradient-text" />, value: '2+', label: 'Years Learning' },
             { icon: <Heart className="gradient-text" />, value: '100%', label: 'Passion' },
           ].map((stat, i) => (
-            <div key={i} style={{ textAlign: 'center' }}>
+            <motion.div 
+              key={i} 
+              style={{ textAlign: 'center' }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              viewport={{ once: true }}
+            >
               <div style={{ marginBottom: '0.5rem' }}>{stat.icon}</div>
               <h2 style={{ fontSize: '1.5rem' }}>{stat.value}</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{stat.label}</p>
-            </div>
+            </motion.div>
           ))}
         </section>
 
@@ -195,10 +212,18 @@ const App = () => {
                 { name: 'TensorFlow', icon: '🔥' },
                 { name: 'PyTorch', icon: '⚡' },
               ].map((skill, i) => (
-                <div key={i} className="glass skill-tag glass-hover">
+                <motion.div 
+                  key={i} 
+                  className="glass skill-tag glass-hover"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.1 }}
+                >
                   <span>{skill.icon}</span>
                   <span style={{ fontSize: '0.9rem' }}>{skill.name}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </section>
@@ -233,7 +258,11 @@ const App = () => {
                 image: '/project3.png'
               },
             ].map((project, i) => (
-              <div key={i} className="glass project-card glass-hover" style={{ padding: '1.5rem' }}>
+              <TiltCard 
+                key={i} 
+                className="glass project-card glass-hover neon-glow-hover" 
+                style={{ padding: '1.5rem' }}
+              >
                 <img src={project.image} alt={project.title} className="project-image" />
                 <h3 style={{ marginBottom: '0.5rem' }}>{project.title}</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>{project.desc}</p>
@@ -250,7 +279,7 @@ const App = () => {
                     <Github size={16} /> GitHub
                   </a>
                 </div>
-              </div>
+              </TiltCard>
             ))}
           </div>
         </section>
